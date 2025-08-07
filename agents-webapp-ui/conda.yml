@@ -1,0 +1,11 @@
+name: sk_ui_env
+channels:
+  - defaults
+dependencies:
+  - python=3.10  # or any version you prefer
+  - notebook
+  - ipykernel
+  - pip
+  - pip:
+    - semantic-kernel==1.35.1
+    - streamlit==1.47.1

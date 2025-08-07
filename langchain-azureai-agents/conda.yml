@@ -1,0 +1,16 @@
+name: langchain_env
+channels:
+  - defaults
+dependencies:
+  - python=3.10  # or any version you prefer
+  - notebook
+  - ipykernel
+  - pip
+  - pip:
+    - azure-ai-projects==1.0.0b11
+    - azure-identity==1.23.0
+    - python-dotenv==1.1.0
+    - langchain==0.3.25
+    - langchain-openai==0.3.21
+    - fastapi==0.115.12
+    - uvicorn==0.34.3

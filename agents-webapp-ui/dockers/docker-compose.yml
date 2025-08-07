@@ -1,0 +1,23 @@
+# This docker-compose file is used to run the LangChain API service.
+# It builds the Docker image from the specified Dockerfile and runs the service.
+# The service listens on port 4000 and maps it to port 40000 on the host machine.
+# It also includes a health check to ensure the service is running correctly.
+services: 
+  sk_ui_api: 
+    build: 
+      # Adjust context to root directory where src and conda.yml are located.
+      context: ..
+      dockerfile: dockers/Dockerfile
+    ports: 
+      - "40010:4010"
+    restart: always
+    shm_size: '64gb'
+    # volumes:
+    #   - ~/.azure:/root/.azure
+    # For local docker testing, create SP in same tenant as Foundry resource. Provide the SP with `Azure AI User` rbac role on Foundry.
+    # For local, without SP, can't test the DefaultAzureCredential().
+    # Or, for local, make sure az login --tenant <tenant_id> is run before starting the service - if tenant allows az login on client compute.
+    environment:
+      AZURE_CLIENT_ID: ${AZURE_CLIENT_ID}
+      AZURE_TENANT_ID: ${AZURE_TENANT_ID}
+      AZURE_CLIENT_SECRET: ${AZURE_CLIENT_SECRET}
