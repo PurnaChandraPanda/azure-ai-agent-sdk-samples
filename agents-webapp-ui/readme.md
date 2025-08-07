@@ -25,6 +25,7 @@ Stop the docker instance
 ./dockers/stop.sh
 ```
 
+## Deplpy the conatiner app
 ```
 az upgrade
 ./containerapp/containerapp_deploy.sh
