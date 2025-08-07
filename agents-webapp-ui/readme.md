@@ -27,6 +27,12 @@ Stop the docker instance
 ```
 
 ## Deplpy the conatiner app
+Pre-requisite
+- Get local docker app running first for a test
+- Have resources pre-created: 1) ACR, 2) AI Foundry
+- Remember to feed in the variables defined in `containerapp_deploy.sh`
+- Run the script to perform container app deploy action
+
 ```
 az upgrade
 ./containerapp/containerapp_deploy.sh

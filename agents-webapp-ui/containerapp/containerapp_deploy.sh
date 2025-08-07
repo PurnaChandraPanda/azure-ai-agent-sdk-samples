@@ -3,7 +3,7 @@
 set -e
 # set -x
 
-## Resources defined
+## <Pre-requisite> Resources defined in the script
 RESOURCE_GROUP="" # Resource group of acr, container app, etc.
 ACR_NAME="" # Supply the ACR resource name, e.g. "foundry1acr00042" 
 LOCATION="" # Azure region where the resources are deployed, e.g. "eastus"
@@ -14,7 +14,7 @@ CONTAINERAPP_ENV_NAME="streamlit-env" # Name of the container app environment, e
 CONTAINERAPP_NAME="streamlit-api" # Name of the container app, e.g. "streamlit-api"
 USER_MANAGED_ID="" # User managed identity to pull the image from ACR, e.g. "uamiagent0001121"
 FOUNDRY_RESOURCE_NAME="" # Name of the Azure AI Foundry resource, e.g. "foundryeus00321"
-
+## </Pre-requisite>
 
 ## 1) Build and tag the Docker image
 docker build -t $LOCAL_IMAGE_NAME:$LOCAL_IMAGE_NAME_TAG -f dockers/Dockerfile .
