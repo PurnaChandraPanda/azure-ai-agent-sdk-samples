@@ -10,6 +10,7 @@ conda deactivate
 conda env remove -n sk_ui_env -y
 ```
 
+## Confirm that the code can be run fine in local docker
 Build the docker instance
 ```
 ./dockers/start.sh

@@ -5,15 +5,15 @@ set -e
 
 ## Resources defined
 RESOURCE_GROUP="" # Resource group of acr, container app, etc.
-ACR_NAME=""
-LOCATION=""
-LOCAL_IMAGE_NAME=""
-LOCAL_IMAGE_NAME_TAG=""
-IMAGE_APP_PORT_NUMBER=4010 # Port number on which the app is running inside the container
-CONTAINERAPP_ENV_NAME="streamlit-env"
-CONTAINERAPP_NAME="streamlit-api"
-USER_MANAGED_ID="" # User managed identity to pull the image from ACR
-FOUNDRY_RESOURCE_NAME="" # Name of the Azure AI Foundry resource
+ACR_NAME="" # Supply the ACR resource name, e.g. "foundry1acr00042" 
+LOCATION="" # Azure region where the resources are deployed, e.g. "eastus"
+LOCAL_IMAGE_NAME="" # Name of the local docker image, e.g. "sk_ui_api"
+LOCAL_IMAGE_NAME_TAG="latest" # Tag for the local docker image, e.g. "v1" or "latest" or any ..
+IMAGE_APP_PORT_NUMBER=4010 # Port number on which the app is running inside the container, i.e. find exposed port in dockers/Dockerfile, e.g. 4010
+CONTAINERAPP_ENV_NAME="streamlit-env" # Name of the container app environment, e.g. "streamlit-env"
+CONTAINERAPP_NAME="streamlit-api" # Name of the container app, e.g. "streamlit-api"
+USER_MANAGED_ID="" # User managed identity to pull the image from ACR, e.g. "uamiagent0001121"
+FOUNDRY_RESOURCE_NAME="" # Name of the Azure AI Foundry resource, e.g. "foundryeus00321"
 
 
 ## 1) Build and tag the Docker image
