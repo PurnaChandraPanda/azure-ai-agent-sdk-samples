@@ -1,5 +1,6 @@
 ## Create conda env
 ```
+cd agents-webapp-ui (if not already in this folder)
 conda env create -f conda.yml
 conda activate sk_ui_env
 ```
@@ -13,16 +14,19 @@ conda env remove -n sk_ui_env -y
 ## Confirm that the code can be run fine in local docker
 Build the docker instance
 ```
+cd agents-webapp-ui (if not already in this folder)
 ./dockers/start.sh
 ```
 
 Test the api exposed in docker container
 ```
+cd agents-webapp-ui (if not already in this folder)
 ./tests/test_docker_api.sh
 ```
 
 Stop the docker instance
 ```
+cd agents-webapp-ui (if not already in this folder)
 ./dockers/stop.sh
 ```
 
@@ -34,6 +38,7 @@ Pre-requisite
 - Run the script to perform container app deploy action
 
 ```
+cd agents-webapp-ui (if not already in this folder)
 az upgrade
 ./containerapp/containerapp_deploy.sh
 ```
