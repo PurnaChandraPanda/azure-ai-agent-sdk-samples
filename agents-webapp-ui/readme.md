@@ -43,17 +43,17 @@ az upgrade
 ./containerapp/containerapp_deploy.sh
 ```
 
-flowchart TD
-  A --> B
+High level flow for container app deploy:
 
+```mermaid
 flowchart TD
     %% Local build and push
     A[Start] --> B[Read Dockerfile<br/>and note EXPOSE port]
     B --> C[Build local Docker image]
-    C --> D[Login to Azure Container Registry (ACR)]
-    D --> E[Tag image with ACR login server<br/>(acrName.azurecr.io/repo:tag)]
+    C --> D[Login to Azure Container Registry]
+    D --> E[Tag image with ACR login server]
     E --> F[Push tagged image to ACR]
-    F --> G[Delete local image (cleanup)]
+    F --> G[Delete local image]
 
     %% Azure resource setup
     G --> H{Container App Environment exists?}
@@ -62,16 +62,23 @@ flowchart TD
     I --> K
     J --> K
 
-    K{User Assigned Managed Identity (UAI)<br/>exists in Entra ID?}
+    K{User Assigned Managed Identity exists in Entra ID?}
     K -- "No" --> L[Create UAI]
     K -- "Yes" --> M[Reuse UAI]
-    L --> N
-    M --> N
+    L --> N[ ]
+    M --> N[ ]
 
     %% Role assignments
-    N --> O[Assign UAI 'AcrPull' role on ACR<br/>(if missing)]
-    O --> P[Assign UAI 'Azure AI User' on AI Foundry<br/>(if missing)]
+    N --> O[Assign UAI 'AcrPull' role on ACR if missing]
+    O --> P[Assign UAI 'Azure AI User' on AI Foundry if missing]
 
     %% Container App creation/update
-    P --> Q[Create/Update Azure Container App<br/>(if not already)]
-    Q --> R[Parameters:<br
+    P --> Q[Create Azure Container App if not already
+            - docker exposed port
+            - acr image
+            - cpu/ memory/ replica
+            - UAI for ACR
+            - UAI id set as env var
+    ]
+    Q --> R[End]
+```
