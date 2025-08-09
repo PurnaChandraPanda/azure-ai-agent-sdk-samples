@@ -73,12 +73,12 @@ flowchart TD
     O --> P[Assign UAI 'Azure AI User' on AI Foundry if missing]
 
     %% Container App creation/update
-    P --> Q[Create Azure Container App if not already
-            - docker exposed port
-            - acr image
-            - cpu/ memory/ replica
-            - UAI for ACR
-            - UAI id set as env var
+    P --> Q[Create Azure Container App with properties if not already:
+            -1 docker exposed port
+            -2 acr image
+            -3 cpu/ memory/ replica
+            -4 UAI for ACR
+            -5 UAI id set as env var
     ]
     Q --> R[End]
 ```
