@@ -44,6 +44,9 @@ az upgrade
 ```
 
 flowchart TD
+  A --> B
+
+flowchart TD
     %% Local build and push
     A[Start] --> B[Read Dockerfile<br/>and note EXPOSE port]
     B --> C[Build local Docker image]
