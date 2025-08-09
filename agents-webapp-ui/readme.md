@@ -30,7 +30,7 @@ cd agents-webapp-ui (if not already in this folder)
 ./dockers/stop.sh
 ```
 
-## Deplpy the conatiner app
+## Deploy the conatiner app
 Pre-requisite
 - Get local docker app running first for a test
 - Have resources pre-created: 1) ACR, 2) AI Foundry
