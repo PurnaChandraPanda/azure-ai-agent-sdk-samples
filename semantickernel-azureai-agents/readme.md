@@ -6,9 +6,10 @@ This document describes the architecture of the `semantickernel-azureai-agents` 
 ## 2. High-Level Diagram
 - Client ---HTTP----> POST /ask | FastAPI (engine/api)
 - FastAPI ----Sevice Layer---> semantic-kernel AzureAIAgent APIs
-- AzureAIAgent ----> Azure AI Agent service (already created on Azure Foundry)
+- AzureAIAgent ----> Azure AI Agent service (already created on Azure AI Foundry)
 
 ## 3. Folder Structure
+```text
 semantickernel-azureai-agents/
 ├── src
     ├── engine/ # HTTP gateway
@@ -17,6 +18,7 @@ semantickernel-azureai-agents/
     └── service/ # Service layer - Agent management
         ├── _foundry_agent.py
         └── sk_agent_service.py
+```
 
 ## 4. Components
 
