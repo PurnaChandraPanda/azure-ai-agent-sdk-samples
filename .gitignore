@@ -1,6 +1,5 @@
 *.amlignore
 *.amlignore.amltmp
-semantickernel-azureai-agents/
 **/.amlgnore
 .env
 !.env.example

@@ -4,16 +4,16 @@ set -e
 # set -x
 
 ## <Pre-requisite> Resources defined in the script
-RESOURCE_GROUP="" # Resource group of acr, container app, etc.
-ACR_NAME="" # Supply the ACR resource name, e.g. "foundry1acr00042" 
-LOCATION="" # Azure region where the resources are deployed, e.g. "eastus"
-LOCAL_IMAGE_NAME="" # Name of the local docker image, e.g. "sk_ui_api"
-LOCAL_IMAGE_NAME_TAG="latest" # Tag for the local docker image, e.g. "v1" or "latest" or any ..
-IMAGE_APP_PORT_NUMBER=4010 # Port number on which the app is running inside the container, i.e. find exposed port in dockers/Dockerfile, e.g. 4010
-CONTAINERAPP_ENV_NAME="streamlit-env" # Name of the container app environment, e.g. "streamlit-env"
-CONTAINERAPP_NAME="streamlit-api" # Name of the container app, e.g. "streamlit-api"
-USER_MANAGED_ID="" # User managed identity to pull the image from ACR, e.g. "uamiagent0001121"
-FOUNDRY_RESOURCE_NAME="" # Name of the Azure AI Foundry resource, e.g. "foundryeus00321"
+RESOURCE_GROUP="" # Resource group of acr, container app, etc. - e.g. "rg-foundry1eus"
+ACR_NAME="" # ACR resource name - e.g. "foundry1acr00042"
+LOCATION="" # Location for Azure resources - e.g. "eastus"
+LOCAL_IMAGE_NAME="" # Local docker image name - e.g. "skapp_api"
+LOCAL_IMAGE_NAME_TAG="" # Local docker image tag - e.g. "latest"
+IMAGE_APP_PORT_NUMBER=4002 # Port number on which the app is running inside the container
+CONTAINERAPP_ENV_NAME="" # Container app environment resource name - e.g. "skapp-env"
+CONTAINERAPP_NAME="" # Container app resource name - e.g. "skapp-api"
+USER_MANAGED_ID="" # User managed identity to pull the image from ACR - e.g. "uamiagent0001121"
+FOUNDRY_RESOURCE_NAME="" # Name of the Azure AI Foundry resource - e.g. "foundryeus00321"
 ## </Pre-requisite>
 
 ## 1) Build and tag the Docker image
@@ -33,7 +33,7 @@ docker tag $LOCAL_IMAGE_NAME:$LOCAL_IMAGE_NAME_TAG $ACR_LOGIN_SERVER/$LOCAL_IMAG
 ## 4) Push the image to Azure Container Registry
 docker push $ACR_LOGIN_SERVER/$LOCAL_IMAGE_NAME:$LOCAL_IMAGE_NAME_TAG
 
-## 5) Delete the local docker image
+## 5) Delete the local docker images
 docker rmi $LOCAL_IMAGE_NAME:$LOCAL_IMAGE_NAME_TAG -f
 echo "removed local image: $LOCAL_IMAGE_NAME:$LOCAL_IMAGE_NAME_TAG"
 

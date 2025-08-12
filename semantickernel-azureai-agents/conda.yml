@@ -1,0 +1,13 @@
+name: sk_env
+channels:
+  - defaults
+dependencies:
+  - python=3.10  # or any version you prefer
+  - notebook
+  - ipykernel
+  - pip
+  - pip:
+    - semantic-kernel==1.35.2
+    - fastapi==0.116.1
+    - uvicorn==0.35.0
+    

@@ -37,6 +37,9 @@ docker push $ACR_LOGIN_SERVER/$LOCAL_IMAGE_NAME:$LOCAL_IMAGE_NAME_TAG
 docker rmi $LOCAL_IMAGE_NAME:$LOCAL_IMAGE_NAME_TAG -f
 echo "removed local image: $LOCAL_IMAGE_NAME:$LOCAL_IMAGE_NAME_TAG"
 
+docker rmi $ACR_LOGIN_SERVER/$LOCAL_IMAGE_NAME:$LOCAL_IMAGE_NAME_TAG -f
+echo "removed local image: $ACR_LOGIN_SERVER/$LOCAL_IMAGE_NAME:$LOCAL_IMAGE_NAME_TAG"
+
 ## 6) Deploy the container app
 ### Create the container app environment if it doesn't exist
 ### Adding || true to swallow the failure if container app env does not exist
