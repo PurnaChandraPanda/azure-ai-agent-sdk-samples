@@ -67,6 +67,7 @@ semantickernel-azureai-agents/
   - Uvicorn launch command from `engine/api.py`.
   - Environment variables securely injected.
 - Scale-out by container replication behind an ingress.
+- Sample [container app deploy script](./containerapp/containerapp_deploy.sh) is shared to publish the local `src` code as docker container in `Container Apps`. 
 
 # Development setup
 
