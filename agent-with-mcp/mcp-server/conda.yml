@@ -1,0 +1,10 @@
+name: mcp_env
+channels:
+  - defaults
+dependencies:
+  - python=3.10  # or any version you prefer
+  - pip
+  - pip:
+    - mcp
+    - fastapi
+    - python-dotenv

@@ -1,0 +1,12 @@
+name: mcp_env
+channels:
+  - defaults
+dependencies:
+  - python=3.12  # or any version you prefer
+  - pip
+  - pip:
+    - mcp
+    - openai
+    - azure-identity
+    - fastapi
+    - python-dotenv

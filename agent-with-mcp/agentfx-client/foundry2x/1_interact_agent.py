@@ -1,0 +1,111 @@
+# Copyright (c) Microsoft. All rights reserved.
+
+import asyncio
+from typing import Any
+import os
+
+from agent_framework import AgentProtocol, AgentResponse, AgentThread, ChatMessage, HostedMCPTool
+from agent_framework.azure import AzureAIProjectAgentProvider
+from azure.identity.aio import AzureCliCredential
+from dotenv import load_dotenv
+
+load_dotenv()
+
+"""
+Azure AI Agent with Hosted MCP Example
+
+This sample demonstrates integrating hosted Model Context Protocol (MCP) tools with Azure AI Agent.
+"""
+
+
+async def handle_approvals_without_thread(query: str, agent: "AgentProtocol") -> AgentResponse:
+    """When we don't have a thread, we need to ensure we return with the input, approval request and approval."""
+
+    result = await agent.run(query, store=False)
+    while len(result.user_input_requests) > 0:
+        new_inputs: list[Any] = [query]
+        for user_input_needed in result.user_input_requests:
+            print(
+                f"User Input Request for function from {agent.name}: {user_input_needed.function_call.name}"
+                f" with arguments: {user_input_needed.function_call.arguments}"
+            )
+            new_inputs.append(ChatMessage(role="assistant", contents=[user_input_needed]))
+            user_approval = input("Approve function call? (y/n): ")
+            new_inputs.append(
+                ChatMessage(role="user", contents=[user_input_needed.create_response(user_approval.lower() == "y")])
+            )
+
+        result = await agent.run(new_inputs, store=False)
+    return result
+
+
+async def handle_approvals_with_thread(query: str, agent: "AgentProtocol", thread: "AgentThread") -> AgentResponse:
+    """Here we let the thread deal with the previous responses, and we just rerun with the approval."""
+
+    result = await agent.run(query, thread=thread)
+    while len(result.user_input_requests) > 0:
+        new_input: list[Any] = []
+        for user_input_needed in result.user_input_requests:
+            print(
+                f"User Input Request for function from {agent.name}: {user_input_needed.function_call.name}"
+                f" with arguments: {user_input_needed.function_call.arguments}"
+            )
+            user_approval = input("Approve function call? (y/n): ")
+            new_input.append(
+                ChatMessage(
+                    role="user",
+                    contents=[user_input_needed.to_function_approval_response(user_approval.lower() == "y")],
+                )
+            )
+        result = await agent.run(new_input, thread=thread)
+    return result
+
+
+async def run_hosted_mcp_without_approval() -> None:
+    """Example showing MCP Tools without approval."""
+    # For authentication, run `az login` command in terminal or replace AzureCliCredential with preferred
+    # authentication option.
+    async with (
+        AzureCliCredential() as credential,
+        AzureAIProjectAgentProvider(credential=credential) as provider,
+    ):
+        agent = await provider.get_agent(
+            name=os.environ["AZURE_AI_AGENT1_AGENT_NAME"],
+        )
+
+        query = "add 2 and 13"
+        print(f"User: {query}")
+        result = await handle_approvals_without_thread(query, agent)
+        print(f"{agent.name}: {result}\n")
+
+
+async def run_hosted_mcp_with_approval_and_thread() -> None:
+    """Example showing MCP Tools with approvals using a thread."""
+    print("=== MCP with approvals and with thread ===")
+
+    # For authentication, run `az login` command in terminal or replace AzureCliCredential with preferred
+    # authentication option.
+    async with (
+        AzureCliCredential() as credential,
+        AzureAIProjectAgentProvider(credential=credential) as provider,
+    ):
+        agent = await provider.get_agent(
+            name=os.environ["AZURE_AI_AGENT2_AGENT_NAME"]
+        )
+
+        thread = agent.get_new_thread()
+        query = "subtract 3 from 15"
+        print(f"User: {query}")
+        result = await handle_approvals_with_thread(query, agent, thread)
+        print(f"{agent.name}: {result}\n")
+
+
+async def main() -> None:
+    print("=== Azure AI Agent with Hosted MCP Tools Example ===\n")
+
+    await run_hosted_mcp_without_approval()
+    await run_hosted_mcp_with_approval_and_thread()
+
+
+if __name__ == "__main__":
+    asyncio.run(main())

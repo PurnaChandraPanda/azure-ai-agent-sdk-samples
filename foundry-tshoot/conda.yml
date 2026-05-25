@@ -1,0 +1,10 @@
+name: st_env
+channels:
+  - defaults
+dependencies:
+  - python=3.12  # or any version you prefer
+  - pip
+  - pip:
+    - streamlit
+    - azure-identity
+    - azure-cosmos
