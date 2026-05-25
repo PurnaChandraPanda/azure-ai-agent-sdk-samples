@@ -69,7 +69,7 @@ cd foundry-tshoot (if not already in this folder)
 ./dockers/stop.sh
 ```
 
-## Deploy the conatiner app
+## Deploy the container app
 
 **Pre-requisite**
 - Get local docker app running first for a test
@@ -87,6 +87,5 @@ az upgrade
 
 ```
 ./containerapp/containerapp_cleanup.sh
-
 ```
 
