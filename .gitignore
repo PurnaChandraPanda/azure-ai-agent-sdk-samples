@@ -1,5 +1,4 @@
-*.amlignore
-*.amlignore.amltmp
+*.amlignore*
 **/.amlgnore
 .env
 !.env.example

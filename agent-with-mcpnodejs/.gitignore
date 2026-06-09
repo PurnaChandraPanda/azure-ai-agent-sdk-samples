@@ -1,3 +1,0 @@
-.amlignore*
-!.env
-.env.example
