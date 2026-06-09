@@ -1,0 +1,52 @@
+# containerapp.template.yml
+type: Microsoft.App/containerApps
+name: ${CONTAINERAPP_NAME}
+location: ${LOCATION}
+identity:
+  userAssignedIdentities: 
+    "${UAMI_ID}": {}
+  type: UserAssigned
+properties:
+  environmentId: "${CONTAINERAPP_ENV_ID}"
+  configuration:
+    ingress:
+      external: true
+      targetPort: ${IMAGE_MCP_APP_PORT_NUMBER}
+      transport: http
+      allowInsecure: false
+      traffic:
+        - latestRevision: true
+          weight: 100
+    registries:
+      - server: "${ACR_LOGIN_SERVER}"
+        identity: "${UAMI_ID}"
+  template:
+    scale:
+      minReplicas: ${MIN_REPLICAS}
+      maxReplicas: ${MAX_REPLICAS}
+    containers:
+      - name: app
+        image: "${ACR_LOGIN_SERVER}/${LOCAL_IMAGE_NAME}:${LOCAL_IMAGE_NAME_TAG}"
+        env:
+          - name: AZURE_CONTAINERAPP_CLIENT_ID
+            value: "${UAI_CLIENT_ID}"
+        resources:
+          cpu: ${CPU}
+          memory: "${MEMORY}"
+        probes:
+          - type: Liveness
+            httpGet:
+              path: /health
+              port: ${IMAGE_HEALTH_PROBE_PORT_NUMBER}
+            initialDelaySeconds: 10
+            periodSeconds: 60
+            timeoutSeconds: 5
+            failureThreshold: 3
+          - type: Readiness
+            httpGet:
+              path: /health
+              port: ${IMAGE_HEALTH_PROBE_PORT_NUMBER}
+            initialDelaySeconds: 5
+            periodSeconds: 60
+            timeoutSeconds: 5
+            failureThreshold: 3
