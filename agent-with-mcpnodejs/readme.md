@@ -95,10 +95,17 @@ User prompt
 ## Foundry flow
 ```
 User prompt
-  -> Agent Framework agent
-  -> MCPStreamableHTTPTool
+  -> Foundry agent
+  -> MCP tool
+  -> Foundry MCP connector
   -> MCP server
   -> MCP tool result
   -> Agent response
 ```
+
+## reference
+
+- [mcp sdk support](https://modelcontextprotocol.io/docs/sdk)
+- [ts mcp sdk](https://www.npmjs.com/package/@modelcontextprotocol/sdk)
+- [ts mcp sdk examples](https://github.com/modelcontextprotocol/typescript-sdk)
 
