@@ -32,7 +32,7 @@ This sample demonstrates:
 
 ## Key Highlight: CallToolResult Response Shape
 
-On the MCP server side, tool handlers should return an MCP-compatible CallToolResult shape.
+On the MCP server side, tool handlers should return an MCP-compatible `CallToolResult` shape.
 
 - Success response example:
 
@@ -77,6 +77,78 @@ return {
   isError: true
 };
 ```
+
+- Code details on mcp server end with `CallToolResult`:
+
+```
+import type { CallToolResult } from "@modelcontextprotocol/sdk/types.js";
+
+export type AppPayload = Record<string, unknown>;
+
+
+export function createToolError(
+  error: string,
+  errorCode: string,
+  guidance?: string,
+  extra?: AppPayload
+): CallToolResult {
+  return {
+    content: [
+      {
+        type: "text" as const,
+        text: JSON.stringify(
+          {
+            success: false,
+            error,
+            errorCode,
+            ...(guidance ? { _guidance: guidance } : {}),
+            ...(extra ?? {})
+          },
+          null,
+          2
+        )
+      }
+    ],
+    isError: true
+  };
+}
+```
+
+- On tools side (in mcp server):
+
+```
+import {
+  createPlayerLookupGuidance,
+  createToolError,
+  createToolResponse
+} from "./responses.js";
+
+  if (results.length === 0) {
+    return createToolError(
+      "No matching players found.",
+      "PLAYER_NOT_FOUND",
+      "Ask the user to try another search type or provide more accurate player information.",
+      {
+        searchType: args.searchType,
+        searchQuery: args.searchQuery
+      }
+    );
+  }
+
+  if (args.searchMode === "platform" && !dummyPropertyConfig.isCgpsEnabled) {
+    return createToolError(
+      "Platform search was requested but this property is not CGPS/platform-enabled (propConfig.ISCGPSENABLED is false). Use local search or enable CGPS for this property.",
+      "PLATFORM_SEARCH_NOT_ENABLED",
+      "Retry with searchMode: local, or enable CGPS/platform search for this property.",
+      {
+        propertyId: dummyPropertyConfig.propertyId,
+        propertyName: dummyPropertyConfig.propertyName,
+        isCgpsEnabled: dummyPropertyConfig.isCgpsEnabled
+      }
+    );
+  }
+```
+
 
 **Note:**
 
